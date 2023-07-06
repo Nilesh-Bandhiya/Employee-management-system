@@ -1,38 +1,65 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-layout {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.main-header {
+  padding: 10px 20px 30px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.main-data-layout {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.second-header {
+  width: 96%;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin: 10px auto 25px auto;
+  padding: 15px 15px 15px 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.error-message{
+  /* width: 37vw; */
+  text-align: center;
+  background-color: rgba(255, 87, 87, 0.269);
 }
+
+.dialog-container{
+  width: 65vw;
+  height: 65vh;
+}
+
+.upload-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 42vh; 
+  margin-top: 10px;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='grey' stroke-width='4' stroke-dasharray='15' stroke-dashoffset='100' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+
+.dialog-actions{
+  display: flex !important;
+  justify-content: space-between !important;
+}
+/* .main-header-text{
+  
+} */
+
+/* .main-add-btn {
+  margin-right: 30px !important;
+} */
