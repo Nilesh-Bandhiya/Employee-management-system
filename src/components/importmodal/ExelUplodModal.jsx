@@ -4,13 +4,13 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
 import { Input } from "@mui/material";
-import * as XlSX from "xlsx";
+import { uploadExcelFile } from "../../services/api/employeeApi";
+import { fetchEmpData } from "../../store/slices/empSlice";
+import { useDispatch } from "react-redux";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -53,11 +53,7 @@ BootstrapDialogTitle.propTypes = {
 const ExelUplodModal = ({ handleClose, open }) => {
   const [file, setFile] = React.useState();
   const [error, setError] = React.useState();
-  const [excelData, setExcelData] = React.useState([]);
-
-  React.useEffect(() => {
-    console.log(excelData);
-  }, [excelData]);
+  const dispatch = useDispatch();
 
   const handleOnchange = (e) => {
     let selectedFile = e.target.files[0];
@@ -72,25 +68,32 @@ const ExelUplodModal = ({ handleClose, open }) => {
         let reader = new FileReader();
         reader.readAsArrayBuffer(selectedFile);
         reader.onload = (e) => {
-          setFile(e.target.result);
+          setFile(selectedFile);
         };
       } else {
         setError("Please Select Valid Exel File");
         setFile(null);
       }
     } else {
-      console.log("Please Select file");
+      setError("Please Select file");
+      setFile(null);
     }
   };
 
-  const submitHandler = () => {
-    if (file !== null) {
-      const workbook = XlSX.read(file, { type: "buffer" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const data = XlSX.utils.sheet_to_json(sheet);
-      console.log("excelData ", data);
-      setExcelData(data);
+  const submitHandler = async () => {
+    if (file !== null && file !== undefined) {
+      try {
+        setError();
+        await uploadExcelFile(file);
+        console.log("File uploaded successfully");
+        setFile(null);
+        handleClose();
+        dispatch(fetchEmpData());
+      } catch (error) {
+        console.error("Failed to upload file:", error);
+      }
+    } else {
+      setError("Please Select file");
     }
   };
 
@@ -102,31 +105,32 @@ const ExelUplodModal = ({ handleClose, open }) => {
         open={open}
         maxWidth="90vw"
       >
-        <div  className="dialog-container">
+        <div className="dialog-container">
           <BootstrapDialogTitle
             id="customized-dialog-title"
             onClose={handleClose}
           >
             <h5>Import Items</h5>
           </BootstrapDialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <div className="error-message">{error}</div>
-              <div className="upload-container">
-                <Button variant="outlined">
-                  <Input
-                    id="raised-button-file"
-                    onChange={handleOnchange}
-                    style={{ display: "none" }}
-                    type="file"
-                    hidden={true}
-                  />
-                  <label htmlFor="raised-button-file">Select files</label>
-                </Button>
-                <div id="file-name"></div>
-              </div>
-            </Typography>
-          </DialogContent>
+          <div className="devider"></div>
+          <div className="modal-content">
+            <div className={`error-message ${!error && "visibility-hidden"}`}>
+              {error}
+            </div>
+            <div className="upload-container">
+              <Button variant="outlined">
+                <Input
+                  id="raised-button-file"
+                  onChange={handleOnchange}
+                  style={{ display: "none" }}
+                  type="file"
+                  hidden={true}
+                />
+                <label htmlFor="raised-button-file">Select files</label>
+              </Button>
+              <div id="file-name"></div>
+            </div>
+          </div>
           <DialogActions className="dialog-actions">
             <Button variant="outlined" color="error" onClick={handleClose}>
               Cancel

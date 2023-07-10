@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import EmpTable from "../emptable/EmpTable"
-import ExelUplodModal from "../dialog/ExelUplodModal";
+import EmpTable from "../components/emptable/EmpTable";
+import ExelUplodModal from "../components/importmodal/ExelUplodModal";
 
-const MainLayout = () => {
+const Home = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -34,4 +34,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default Home;
