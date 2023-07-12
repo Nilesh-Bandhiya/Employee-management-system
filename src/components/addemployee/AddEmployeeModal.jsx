@@ -79,7 +79,6 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
 
   const addEmployeeHandler = async (data) => {
     const { id, ...newData } = data;
-    debugger;
     //if there is formdata means that's open and data for upload employee
     if (formData) {
       await editEmployee(id, newData);
