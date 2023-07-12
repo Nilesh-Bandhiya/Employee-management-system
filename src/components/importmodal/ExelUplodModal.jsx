@@ -57,10 +57,12 @@ const ExelUplodModal = ({ handleClose, open }) => {
 
   const handleOnchange = (e) => {
     let selectedFile = e.target.files[0];
-    console.log(selectedFile);
     let fileTypes = [
       "application/vnd.ms-excel",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel.sheet.macroEnabled.12",
+      "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
+      "application/vnd.ms-excel",
     ];
     if (selectedFile) {
       if (fileTypes.includes(selectedFile.type)) {

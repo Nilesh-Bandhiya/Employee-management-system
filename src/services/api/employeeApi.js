@@ -10,7 +10,6 @@ export const getAllEmployees = async () => {
   };  
 
 export const uploadExcelFile = async (file) => {
-    console.log("file s", file);
   try {
     const formData = new FormData();
     formData.append('file', file);

@@ -9,7 +9,7 @@
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  max-width: 800px;
+  max-width: 80vw;
   min-width: 280px;
   height: 100vh;
   width: 100%;
@@ -34,6 +34,10 @@
 }
 
 .second-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 96%;
   border: 1px solid black;
   border-radius: 15px;
@@ -44,6 +48,7 @@
 
 .css-1lymaxv-MuiDataGrid-root {
   border-radius: 10px !important;
+  box-shadow: 0 3px 5px rgba(171, 171, 171, 0.653) !important;
 }
 
 .css-128fb87-MuiDataGrid-toolbarContainer {
@@ -73,7 +78,7 @@
 
 .dialog-container {
   min-width: 218px;
-  max-width: 700px;
+  max-width: 70vw;
   width: 70vw;
   height: 80vh;
 }
@@ -83,7 +88,7 @@
 }
 
 .devider {
-  max-width: 700px;
+  max-width: 70vw;
   min-width: 280px;
   width: 70vw;
   border: 1px solid rgb(188, 188, 188);
