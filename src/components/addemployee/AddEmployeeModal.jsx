@@ -43,7 +43,6 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
     status: null,
     salary: null,
     location: null,
-    skills: null,
   };
 
   const validation = yup.object().shape({
@@ -57,7 +56,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
 
     status: yup.string().required("Status is Required"),
 
-    skills: yup.string().required("Skills are Required"),
+    // skills: yup.string().required("Skills are Required"),
   });
 
   const {
@@ -73,7 +72,6 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
 
   useEffect(() => {
     if (formData) {
-      console.log(formData);
       reset(formData);
     } else {
       reset(defaultValue);
@@ -83,7 +81,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
 
   const addEmployeeHandler = async (data) => {
     const { id, ...newData } = data;
-
+    debugger;
     //if there is formdata means that's open and data for upload employee
     if (formData) {
       await editEmployee(id, newData);
@@ -92,8 +90,9 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
       await createEmployee(newData);
       dispatch(fetchEmpData());
     }
-    
+
     reset(defaultValue);
+    reset()
     handleEmployeeFormClose();
   };
 
@@ -126,7 +125,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                 {fileds.map((field) => {
                   if (field === "name") {
                     return (
-                      <Grid key={'name'} item xs={6}>
+                      <Grid key={"name"} item xs={6}>
                         <TextField
                           required
                           fullWidth
@@ -144,7 +143,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                   }
                   if (field === "designation") {
                     return (
-                      <Grid key={'designation'} item xs={12} sm={6}>
+                      <Grid key={"designation"} item xs={12} sm={6}>
                         <TextField
                           required
                           fullWidth
@@ -161,7 +160,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                   }
                   if (field === "salary") {
                     return (
-                      <Grid key={'salary'} item xs={12} sm={6}>
+                      <Grid key={"salary"} item xs={12} sm={6}>
                         <TextField
                           required
                           fullWidth
@@ -179,7 +178,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                   }
                   if (field === "location") {
                     return (
-                      <Grid key={'location'} item xs={12} sm={6}>
+                      <Grid key={"location"} item xs={12} sm={6}>
                         <TextField
                           required
                           fullWidth
@@ -196,7 +195,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                   }
                   if (field === "status") {
                     return (
-                      <Grid key={'status'} item xs={12} sm={6}>
+                      <Grid key={"status"} item xs={12} sm={6}>
                         <FormControl sx={{ minWidth: 270 }}>
                           <InputLabel
                             id="status"
@@ -229,7 +228,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                   }
                   if (field === "skills") {
                     return (
-                      <Grid key={'skills'} item xs={6}>
+                      <Grid key={"skills"} item xs={6}>
                         <TextField
                           required
                           fullWidth
@@ -247,7 +246,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                   }
                   if (field === "joining_date") {
                     return (
-                      <Grid key={'joining_date'} item xs={6}>
+                      <Grid key={"joining_date"} item xs={6}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DemoContainer components={["DatePicker"]}>
                             <DatePicker
@@ -269,7 +268,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
                   }
                   if (field === "birth_date") {
                     return (
-                      <Grid key={'birth_date'} item xs={6}>
+                      <Grid key={"birth_date"} item xs={6}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DemoContainer components={["DatePicker"]}>
                             <DatePicker
