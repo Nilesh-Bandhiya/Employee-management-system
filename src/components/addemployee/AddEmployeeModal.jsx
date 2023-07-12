@@ -28,22 +28,21 @@ import { createEmployee, editEmployee } from "../../services/api/employeeApi";
 const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
   const dispatch = useDispatch();
   const [fileds, setFields] = React.useState([]);
+  const [defaultValue, setDefaultValue] = React.useState({});
   let employees = useSelector((state) => state.emp.data);
 
   useEffect(() => {
     if (employees.length > 0) {
       setFields(Object.keys(employees[0]));
+      const defaultValue = {};
+
+      Object.keys(employees[0]).forEach((field) => {
+        defaultValue[field] = null;
+      });
+      setDefaultValue(defaultValue)
     }
   }, [employees]);
 
-  const defaultValue = {
-    id: null,
-    name: null,
-    designation: null,
-    status: null,
-    salary: null,
-    location: null,
-  };
 
   const validation = yup.object().shape({
     name: yup.string().required("Name is Required"),
@@ -56,7 +55,6 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
 
     status: yup.string().required("Status is Required"),
 
-    // skills: yup.string().required("Skills are Required"),
   });
 
   const {
@@ -92,7 +90,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
     }
 
     reset(defaultValue);
-    reset()
+    reset();
     handleEmployeeFormClose();
   };
 
