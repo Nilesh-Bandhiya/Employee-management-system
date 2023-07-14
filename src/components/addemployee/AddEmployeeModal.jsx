@@ -40,7 +40,6 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
 
       Object.keys(employees[0]).forEach((field) => {
         if (field === "birth_date" || field === "joining_date") {
-          console.log(dayjs());
           defaultValue[field] = dayjs();
         } else {
           defaultValue[field] = null;
