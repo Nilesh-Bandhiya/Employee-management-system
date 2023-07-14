@@ -29,33 +29,43 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
   const dispatch = useDispatch();
   const [fileds, setFields] = React.useState([]);
   const [defaultValue, setDefaultValue] = React.useState({});
+  const [validationSchema, setValidationSchema] = React.useState({});
   let employees = useSelector((state) => state.emp.data);
 
   useEffect(() => {
     if (employees.length > 0) {
       setFields(Object.keys(employees[0]));
       const defaultValue = {};
+      let validationSchema = yup.object();
 
       Object.keys(employees[0]).forEach((field) => {
-        defaultValue[field] = null;
+        if (field === "birth_date" || field === "joining_date") {
+          console.log(dayjs());
+          defaultValue[field] = dayjs();
+        } else {
+          defaultValue[field] = null;
+        }
+        if (field === "salary") {
+          validationSchema = validationSchema.shape({
+            [field]: yup
+              .number()
+              .required(`${field} is Required`)
+              .typeError(`${field} must be a valid number`),
+          });
+        } else if (
+          field !== "id" &&
+          field !== "birth_date" &&
+          field !== "joining_date"
+        ) {
+          validationSchema = validationSchema.shape({
+            [field]: yup.string().required(`${field} is Required`),
+          });
+        }
       });
-      setDefaultValue(defaultValue)
+      setDefaultValue(defaultValue);
+      setValidationSchema(validationSchema);
     }
   }, [employees]);
-
-
-  const validation = yup.object().shape({
-    name: yup.string().required("Name is Required"),
-
-    designation: yup.string().required("Designation is Required"),
-
-    salary: yup.number().required("Salary is Required"),
-
-    location: yup.string().required("Location is Required"),
-
-    status: yup.string().required("Status is Required"),
-
-  });
 
   const {
     register,
@@ -65,7 +75,7 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(validation),
+    resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
@@ -78,7 +88,15 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
   }, [formData, reset]);
 
   const addEmployeeHandler = async (data) => {
-    const { id, ...newData } = data;
+    let { id, ...newData } = data;
+
+    if (newData?.birth_date) {
+      newData.birth_date = newData?.birth_date?.$d;
+    }
+
+    if (newData?.joining_date) {
+      newData.joining_date = newData?.joining_date?.$d;
+    }
     //if there is formdata means that's open and data for upload employee
     if (formData) {
       await editEmployee(id, newData);
@@ -89,7 +107,6 @@ const AddEmployee = ({ open, handleEmployeeFormClose, formData }) => {
     }
 
     reset(defaultValue);
-    reset();
     handleEmployeeFormClose();
   };
 
